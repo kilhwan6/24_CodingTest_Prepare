@@ -7,12 +7,10 @@
 using namespace std;
 int N, M;
 vector <int>v;
-vector <int>add;
 string result;
 
 void input() {
 	v.clear();
-	add.clear();
 	result.clear();
 
 	int a;
@@ -26,30 +24,21 @@ void input() {
 void func() {
 
 	int x, y, s;
-	string a;
-	cin >> M;
-	for (int i = 0; i < M; i++) {
-		add.clear();
-
+	char a;
+	cin >> N;
+	for (int i = 0; i < N; i++) {
+		vector <int> v2;
 		cin >> a;
-
-		if (a == "I") {//추가 시
+		if (a == 'I') {//추가 시
 			cin >> x >> y;
 			for (int j = 0; j < y; j++) {
 				cin >> s;
-				add.push_back(s);
+				v2.push_back(s);
 			}
-			for (int j = 0; j < y; j++) {
-				s = add.back();
-				v.emplace(v.begin() + x, s);
-				add.pop_back();
-			}
-			for (int j = 0; j < y; j++) {
-				v.pop_back();
-			}
+			v.insert(v.begin() + x, v2.begin(), v2.end());
 		}
 
-		else {//삭제 시
+		else if (a == 'D'){//삭제 시
 			cin >> x >> y;
 			for (int j = 0; j < y; j++) {
 				v.erase(v.begin() + x);
@@ -59,8 +48,7 @@ void func() {
 
 	//10개만 남기기
 	for (int i = 0; i < 10; i++) {
-		a = to_string(v[i]);
-		result.append(a);
+		result += to_string(v[i]);
 		result.append(" ");
 	}
 }

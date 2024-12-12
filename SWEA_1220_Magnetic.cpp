@@ -33,14 +33,21 @@ void input() {
 
 void func() {
 	int a;
-	int b;
-
+	bool flag = false;
+	//flag 는 N(1) 발견 시 true, 그 상태에서 S(2) 발견하면
+	// result ++, flag != flag;
+	//1은 N극, 2는 S극
+	//작은쪽이 N극 
 	for (int x = 0; x < 100; x++) {//x 0부터 100까지
-		for (int y = 0; y < 100 - 1; y++) {// y 0 부터 100까지 세기
+		flag = false;
+		for (int y = 0; y < 100; y++) {// y 0 부터 100까지 세기
 			a = map[y][x];
-			b = map[y + 1][x];
-			if (a == 1 && b == 2) {
+			if (a == 1) {
+				flag = true;
+			}
+			else if (a == 2 && flag == true){
 				result++;
+				flag = false;
 			}
 		}
 
@@ -52,7 +59,7 @@ void output(int testcase_num) {
 }
 
 int main() {
-	for (int i = 0; i < 10; i++) {
+	for (int i = 1; i < 11; i++) {
 		input();
 		func();
 		output(i);

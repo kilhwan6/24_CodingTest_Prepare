@@ -1,34 +1,89 @@
 #include <stdio.h>
-#include <string.h>
-#include <algorithm>
+#include <cstring>
 #include <iostream>
 #define endl "\n"
 
 using namespace std;
 
-int map[100][100] = { {0, }, };
-bool find_case;
+char map[100][100] = { 0, };
+int testcase_num;
 int result;
 
+void input() {
+	//초기화
+	memset(map, 0, sizeof(map));
+	result = 0;
+	//입력
 
-void row(int a) {
-
-}
-
-void column(int a) {
-
-}
-
-//100개부터 1개씩 줄여가며 검사
-void func() {
-	for (int i = 100; i < 1; i--) {
-		//가로 함수
-		row(i);
-		//세로 함수
-		column(i);
-		if (find_case) {
-			result = i;
-			break;
+	cin >> testcase_num;
+	char input;
+	for (int i = 0; i < 100; i++) {
+		for (int j = 0; j < 100; j++) {
+			cin >> input;
+			map[j][i] = input;
 		}
 	}
+}
+
+bool isPalindrome(int row, int col, int len, bool isHorizontal) {
+	int start = 0, end = len - 1;
+	while (start < end) {
+		if (isHorizontal) {
+			if (map[row][col + start] != map[row][col + end]) {
+				return false;
+			}
+		}
+		else {
+			if (map[row + start][col] != map[row + end][col]) {
+				return false;
+			}
+		}
+		start++;
+		end--;
+	}
+	return true;
+}
+
+void func() {
+	//시작점, 끝점 비교
+	//시작점 ++, 끝점 --
+	//1. 시작점이 끝점보다 커지면 종료(result ++)
+	//2. 값이 같지 않으면 종료
+	//가로
+	int len = 100;
+	bool flag = false;
+	while (!flag) {
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j <= 100 - len; j++) {
+				if (isPalindrome(i, j, len, true)) {
+					flag = true;
+					result = len;
+				}
+			}
+		}
+
+		//세로
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j <= 100 - len; j++) {
+				if (isPalindrome(j, i, len, false)) {
+					flag = true;
+					result = len;
+				}
+			}
+		}
+		len--;
+	}
+}
+
+void output() {
+	cout << "#" << testcase_num << " " << result << endl;
+}
+
+int main() {
+	for (int i = 1; i <= 10; i++) {
+		input();
+		func();
+		output();
+	}
+	return 0;
 }
